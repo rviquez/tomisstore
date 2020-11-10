@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import firebase from "../configFirebase.js";
+import firebase from "../configFirebase";
 import { mapState } from "vuex";
 export default {
   data() {
@@ -52,6 +52,14 @@ export default {
   },
   mounted() {
     this.getToys();
+    firebase
+          .auth
+          .signInAnonymously()
+          .catch(err => {
+            this.error = `Something went wrong: ${err.code}: ${err.message}`;
+            this.setSnack(this.error);
+          });
+        this.$emit("loggedIn");
   },
   computed: {
     ...mapState(["toys"], ["cart"])

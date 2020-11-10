@@ -81,10 +81,11 @@ export default {
           .child(`images/picture-${new Date().getTime()}`)
           .put(blob)
           .then(res => {
+            let pictureId = res.ref.name;
             res.ref.getDownloadURL().then(pictureUrl => {
               this.$router.push({
                 name: "Item",
-                params: { pictureUrl }
+                params: { pictureUrl, pictureId }
               });
             });
           })

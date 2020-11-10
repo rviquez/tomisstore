@@ -2,6 +2,8 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/storage";
 import "firebase/messaging";
+import "firebase/auth";
+import store from "./store";
 
 var config = {
   apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
@@ -16,6 +18,21 @@ var config = {
 
 firebase.initializeApp(config);
 
+let auth = firebase.auth();
+
+firebase.auth().onAuthStateChanged(user => {
+  store.dispatch("fetchUser", user);
+});
+
+firebase.getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+      unsubscribe();
+      resolve(user);
+    }, reject);
+  });
+};
+
 // Initialize Cloud Firestore through Firebase
 let db = firebase.firestore();
 db.enablePersistence({
@@ -26,6 +43,7 @@ let storage = firebase.storage();
 let messaging = firebase.messaging.isSupported() ? firebase.messaging() : null;
 
 export default {
+  auth,
   db,
   storage,
   messaging

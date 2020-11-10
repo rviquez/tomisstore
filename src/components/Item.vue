@@ -37,7 +37,7 @@
                 label=""
               ></v-file-input>
               <v-btn block color="primary" @click="post()">
-                Buy a toy
+                Add a toy
               </v-btn>
             </v-flex>
           </v-layout>
@@ -55,11 +55,15 @@ export default {
     pictureUrl: {
       default: "",
       type: String
+    },
+    idPicture: {
+      default: "",
+      type: String
     }
   },
   data() {
     return {
-      url: null,
+      url: "",
       price: "",
       loading: true,
       selectedFile: null,
@@ -70,11 +74,15 @@ export default {
     if (this.pictureUrl !== "") {
       this.url = this.pictureUrl;
     }
+    if (this.idPicture !== "") {
+      this.pictureId = this.idPicture;
+    }
     this.loading = false;
   },
   methods: {
     post() {
-      firebase.storage
+      if (this.selectedFile) {
+        firebase.storage
         .ref()
         .child(`images/picture-${new Date().getTime()}`)
         .put(this.selectedFile)
@@ -89,6 +97,10 @@ export default {
           console.log(err);
           this.$router.go(-1);
         });
+      } else {
+        postItem(this.pictureUrl, this.pictureId, this.price);
+      }
+      
     },
     onSelectFile(file) {
       if (file) {
