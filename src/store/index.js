@@ -67,6 +67,7 @@ export default new Vuex.Store({
           toys.push({
             id: doc.id,
             url: appData.url,
+            name: appData.name,
             pictureId: appData.pictureId,
             price: appData.price
           });

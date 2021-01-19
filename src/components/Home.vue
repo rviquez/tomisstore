@@ -14,9 +14,12 @@
             style="padding-top:13px"
             @click="buyToy(toy)"
           >
-            <div>
+           <v-flex v-if="toy.name">
+              <h3 class="headline">{{ toy.name }} </h3>
+            </v-flex>
+            <v-flex>
               <h3 class="headline">${{ toy.price }}</h3>
-            </div>
+            </v-flex>
           </v-card-title>
           <v-card-actions>
             <v-btn icon x-small @click="buyToy(toy)">

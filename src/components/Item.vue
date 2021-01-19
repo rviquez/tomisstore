@@ -22,6 +22,13 @@
                 <v-icon>mdi-camera</v-icon>
               </v-btn>
               <v-text-field
+                v-model="name"
+                type="text"
+                name="name"
+                label="Nombre"
+                id="name"
+              />
+              <v-text-field
                 v-model="price"
                 type="number"
                 name="price"
@@ -64,6 +71,7 @@ export default {
   data() {
     return {
       url: "",
+      name: "",
       price: "",
       loading: true,
       selectedFile: null,
@@ -90,7 +98,7 @@ export default {
           this.pictureId = res.ref.name;
           res.ref.getDownloadURL().then(pictureUrl => {
             this.url = pictureUrl;
-            postItem(this.url, this.pictureId, this.price);
+            postItem(this.url, this.name, this.pictureId, this.price);
           });
         })
         .catch(err => {
@@ -98,7 +106,7 @@ export default {
           this.$router.go(-1);
         });
       } else {
-        postItem(this.pictureUrl, this.pictureId, this.price);
+        postItem(this.pictureUrl, this.name, this.pictureId, this.price);
       }
       
     },

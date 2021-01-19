@@ -5,6 +5,9 @@
         <v-img :src="toy.url ? toy.url : ''"></v-img>
       </v-flex>
       <v-flex>
+        <h1>{{ toy.name }} 1</h1>
+      </v-flex>
+      <v-flex>
         <h1>${{ toy.price }}</h1>
       </v-flex>
     </v-layout>
